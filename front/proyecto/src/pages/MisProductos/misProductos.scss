@@ -1,0 +1,19 @@
+.tituloAdministracion{
+    display: flex;
+    justify-content: space-between;
+}
+
+.linkMisProductos{
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+
+
+@media screen and (max-width: 460px){
+
+    .linkMisProductos h2{
+        display: none;
+    }  
+    
+}
