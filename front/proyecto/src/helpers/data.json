@@ -5,25 +5,25 @@
         "id":1,
         "URLimg":"imagen1.png",
         "titulo":"Hoteles",
-        "parrafo":"807.105 hoteles"
+        "parrafo":" hoteles"
     },
     {
         "id":2,
         "URLimg":"imagen1.png",
         "titulo":"Hostels",
-        "parrafo":"807.105 hostels"
+        "parrafo":" hostels"
     },
     {
         "id":3,
         "URLimg":"imagen1.png",
         "titulo":"Departamentos",
-        "parrafo":"807.105 departamentos"
+        "parrafo":" departamentos"
     },
     {
         "id":4,
         "URLimg":"imagen1.png",
         "titulo":"Bed and breakfast",
-        "parrafo":"807.105 Bed and breakfast"
+        "parrafo":" Bed and breakfast"
     }
     ],
     "informacionRecomendacion":[                

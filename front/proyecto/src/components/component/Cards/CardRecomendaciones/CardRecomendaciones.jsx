@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import axiosConnection from "../../../../helpers/axiosConnection";
 import ImageEmptyState from "../../../img/EmptyState@2x.png";
 
-//import { useAccordionButton, Card } from "react-bootstrap";
-//import Accordion from 'react-bootstrap/Accordion'
 
 const CardRecomendacion = ({
   selectCiudad,
@@ -18,7 +16,6 @@ const CardRecomendacion = ({
   const [dataProducto, setDataProducto] = useState([]);
   const [dataImagen, setImagen] = useState([]);
   const [dataCaracteristicas, setCaracteristicas] = useState([]);
-  //const [/*idProducto,*/ setIdProducto] = useState([]);
   const [verMas, setVerMas] = useState(false);
 
   const fechaInicio = new Date(startDate).toISOString().slice(0, 10);
@@ -31,27 +28,22 @@ const CardRecomendacion = ({
 
   useEffect(() => {
     axiosConnection.get(getUrl()).then((response) => {
-      setDataProducto(response.data.data);
+      setDataProducto(response.data.data);      
     });
     // TODO Modificar url
-    axiosConnection.get(`/imagenes/listarImagenes`).then((response) => {
-      setImagen(response.data.data);
-    });
+    
   }, [selectCiudad, startDate, endDate]);
 
-  console.log(startDate);
   useEffect(() => {
     axiosConnection
       .get(`/caracteristicas/listarCaracteristicas`)
       .then((response) => {
         setCaracteristicas(response.data.data);
       });
-  }, []);
+  }, [dataImagen]);
 
   const getImage = (card) => {
-    const imagenes = dataImagen.filter((img) => img.producto?.id === card.id);
-    //console.log("imagenes: ", imagenes);
-    return imagenes[0]?.url;
+    return dataImagen[card.id] || ImageEmptyState; // Devuelve la URL de la imagen si está disponible, de lo contrario, la imagen predeterminada.
   };
 
   const filteredList = useMemo(() => {
@@ -60,9 +52,23 @@ const CardRecomendacion = ({
       : dataProducto;
   }, [dataProducto, selectCategoria, selectCiudad]);
 
-  //const getFilteredList = () => selectCiudad ? dataProducto.filter((prod) => prod.ciudad.id == selectCiudad) : dataProducto;
-
-  //const getFilteredCategoryList = () => selectCategoria ? dataProducto.filter((prod) => prod.categoria.id == selectCategoria) : dataProducto;
+ 
+  useEffect(() => {
+    filteredList.forEach((card) => {
+      axiosConnection.get(`/imagenes/productos/${card.id}/imagenes`).then((response) => {
+        const firstImage = response.data[0]; 
+        if (firstImage) {
+          setImagen((prevState) => ({
+            ...prevState,
+            [card.id]: firstImage.url // Guardar la primera imagen en un objeto usando el ID del producto como clave.
+          }));
+        }
+      }).catch((error) => {
+        console.error("Error al obtener imágenes:", error);
+      });
+    });
+  }, [filteredList]);
+  
   const buscadorCards = () => {
     if (filteredList.length === 0) {
       return (
@@ -142,9 +148,6 @@ const CardRecomendacion = ({
     }
   };
 
-  //const getFilteredList = () => selectCiudad ? dataProducto.filter((prod) => prod.ciudad.id == selectCiudad) : dataProducto;
-
-  //const getFilteredCategoryList = () => selectCategoria ? dataProducto.filter((prod) => prod.categoria.id == selectCategoria) : dataProducto;
 
   return <div className="cards">{buscadorCards()}</div>;
 };

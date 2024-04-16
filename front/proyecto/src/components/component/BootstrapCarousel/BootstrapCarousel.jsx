@@ -20,17 +20,16 @@ export default function BootstrapCarousel() {
     .then(data =>setDataImagen(data.data)); */
 
     // TODO modificar url
-    axiosConnection.get("/imagenes/listarImagenes")
+    axiosConnection.get(`/imagenes/productos/${id}/imagenes`)
       .then(response => {
-        setDataImagen(response.data.data)
+        setDataImagen(response.data)
       })
 
   }, [])
   return (
     <div>
       <Carousel activeIndex={index} onSelect={handleSelect}>
-        {dataImagen?.filter((imagen) => imagen.producto?.id == id)
-          ?.map((item, index) => (
+        {dataImagen?.map((item, index) => (
             <Carousel.Item key={item.id}>
               <img
                 className="d-block w-100"
