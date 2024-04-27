@@ -10,7 +10,7 @@ import HoraContextProvider from "../../context/HoraContextProvider";
 import UserProvider from "../../context/UserContext";
 import axiosConnection from "../../../helpers/axiosConnection";
 import axios from "axios";
-
+import ImageEmptyState from "../../img/EmptyState@2x.png";
 
 export default function DetallesReserva() {
   const { user } = useContext(UserProvider);
@@ -23,7 +23,7 @@ export default function DetallesReserva() {
   const [isDisabled, setIsDisabled] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-  var cors = require('cors')
+  var cors = require("cors");
 
   //console.log("isCiudad: ", isCiudad);
   useEffect(() => {
@@ -52,17 +52,24 @@ export default function DetallesReserva() {
   useEffect(() => {
     // TODO modificar url
     axiosConnection
-      .get(`/imagenes/listarImagenes`)
+      .get(`/imagenes/productos/${id}/imagenes`)
       .then((response) => {
-        setDataImagen(response.data.data);
+        const firstImage = response.data[0];
+        if (firstImage) {
+          setDataImagen((prevState) => ({
+            ...prevState,
+            [id]: firstImage.url, // Guardar la primera imagen en un objeto usando el ID del producto como clave.
+          }));
+        }
+      })
+      .catch((error) => {
+        console.error("Error al obtener imágenes:", error);
       });
   }, []);
 
   const getImage = () => {
-    if (dataImagen.length !== 0) {
-      const imagenes = dataImagen.filter((img) => img.producto?.id == id);
-      return imagenes[0]?.url;
-    }
+    return dataImagen[id] || ImageEmptyState;
+    // Devuelve la URL de la imagen si está disponible, de lo contrario, la imagen predeterminada.
   };
 
   const isProducto = () => {
@@ -73,43 +80,19 @@ export default function DetallesReserva() {
     }
   };
 
-  //console.log("isHora:", isHora);
-  
-
   useEffect(() => {
-    if (rango[0] !== null && rango[1] !== null && isHora!==null && isCiudad) {
+    if (
+      rango[0] !== null &&
+      rango[1] !== null &&
+      isHora !== undefined &&
+      isCiudad
+    ) {
+      console.log("hora: " + isHora);
       setIsDisabled(false);
-    }else{
-      setIsDisabled(true)
+    } else {
+      setIsDisabled(true);
     }
-  }, [rango, isHora,isCiudad])
-
-  /* const registroReserva = async (data) => {
-    let corsOptions = {
-      origin: "*",
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
-    }
-    const token = sessionStorage.getItem('token')
-    //JSON.parse(sessionStorage.getItem('token'))
-    console.log(JSON.parse(token));
-    try {
-        const respuesta = await axios.post("http://localhost:8080/reserva/nuevaReserva",cors(corsOptions),data,{
-          headers: {
-            "Content-type":"application/json",
-            "Accept": "application/json",
-            'Authorization': `Bearer ${JSON.parse(token)}`
-          }
-        })
-        if (respuesta.status !== 200) {
-            throw new Error("Lamentablemente no se ha podido crear la reserva. Por favor intente más tarde")
-        } else {
-            console.log("respuesta1: ", respuesta.data);
-        }
-        return respuesta.data;
-    } catch (error) {
-        console.error("ERROR REGISTRO RESERVA ", error);
-    }
-  } */
+  }, [rango, isHora, isCiudad]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -122,52 +105,32 @@ export default function DetallesReserva() {
         id: parseInt(id),
       },
       usuario: {
-        id: user.id,
-      }
+        id: parseInt(user.id),
+      },
     };
 
     console.log(newReserva);
-    
-    if (rango[0] !== null && rango[1] !== null && isHora && isCiudad) {
-      //registroReserva(newReserva)
-      const token =JSON.parse(sessionStorage.getItem('token')) 
-      console.log(token);
-      // if(getLoginApi().status === 200 ){
-      fetch("/reserva/nuevaReserva", {
-        mode: 'cors',
-        method: "POST",
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          hora: "15:00:00",
-          fechaInicial: fechaInicio,
-          fechaFinal: fechaFinal,
-          producto: {
-            id: parseInt(id),
-          },
-          usuario: {
-            id: user.id,
-          },
-        }),
-      }).then((response)=>response.json())
-      .then(data =>console.log("nuevaReserva: ",data,{
-        hora: "15:00:00",
-        fechaInicial: fechaInicio,
-        fechaFinal: fechaFinal,
-        producto: {
-          id: parseInt(id),
-        },
-        usuario: {
-          id: user.id,
-        },
-      }));
 
-      navigate(`/reservaExitosa`);
-    } //}
+    if (rango[0] !== null && rango[1] !== null && isHora && isCiudad) {
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      console.log(token);
+      axiosConnection
+        .post("reserva/agregarReserva", newReserva, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",            
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Respuesta del servidor:", response.data);
+          navigate(`/reservaExitosa`);
+        })
+        .catch((error) => {
+          console.error("Error al enviar la solicitud:", error);
+          // Manejar el error aquí
+        });
+    }
   };
 
   return (
@@ -208,10 +171,11 @@ export default function DetallesReserva() {
                 <p>Check out</p>
                 <p>{fechaFinal}</p>
               </div>
-              <button 
-              className="confirmarReserva" 
-              onClick={onSubmit}
-              disabled={isDisabled}>
+              <button
+                className="confirmarReserva"
+                onClick={onSubmit}
+                disabled={isDisabled}
+              >
                 Confirmar reserva
               </button>
             </div>

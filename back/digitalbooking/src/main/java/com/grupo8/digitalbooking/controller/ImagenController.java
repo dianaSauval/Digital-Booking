@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @Api(tags = "Imágenes")
@@ -69,10 +70,16 @@ public class ImagenController {
         return response;
     }
 
+    @GetMapping("/productos/{productId}/imagenes")
+    public ResponseEntity<List<Imagen>> obtenerImagenesPorIdProducto(@PathVariable Integer productId) {
+        List<Imagen> imagenes = imagenService.obtenerImagenesPorIdProducto(productId);
+        return ResponseEntity.ok().body(imagenes);
+    }
+
     @ApiOperation(value="listarImagenes", notes="Listar todas las imágenes")
     @GetMapping("/listarImagenes")
 //    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> listarImagenes(){
-        return ResponseHandler.generateResponse("Listado de todas las Imágenes", HttpStatus.OK, imagenService.listarImagen());
+        return ResponseHandler.generateResponse("Listado de todas las Imágenes", HttpStatus.OK, imagenService.listarImagenes());
     }
 }

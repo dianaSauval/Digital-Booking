@@ -24,12 +24,25 @@ public class ReservaController {
     public ResponseEntity<Object> listarReservas() throws Exception{
         return ResponseHandler.generateResponse("Listado de reservas", HttpStatus.OK, reservaService.listarReservas());
     }
-
+/*
     @ApiOperation(value="nuevaReserva", notes="Agregar una nueva reserva")
     @PostMapping("/nuevaReserva")
     public ResponseEntity<Object> agregarReserva(@RequestBody Reserva reserva) throws Exception{
         return ResponseHandler.generateResponse("La reserva fue guardada con éxito", HttpStatus.OK, reservaService.newReserva(reserva));
     }
+    */
+    @ApiOperation(value="agregarReserva", notes="Agregar una nueva reserva")
+    @PostMapping("/agregarReserva")
+    public ResponseEntity<Object> agregarReserva(@RequestBody Reserva reserva) {
+    try {
+        Reserva nuevaReserva = reservaService.newReserva(reserva);
+        return ResponseHandler.generateResponse("Reserva agregada exitosamente", HttpStatus.CREATED, nuevaReserva);
+    } catch (Exception e) {
+        // Manejo de excepciones si ocurre algún error al agregar la reserva
+        return ResponseHandler.generateResponse("Error al agregar la reserva: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+    }
+}
+
 
     @ApiOperation(value="buscarReserva", notes="Buscar una reserva")
     @GetMapping("/buscarReserva/{id}")

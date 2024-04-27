@@ -6,12 +6,15 @@ import com.grupo8.digitalbooking.repository.ImagenRepository;
 import com.grupo8.digitalbooking.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ImagenService {
+    private static final Logger logger = LoggerFactory.getLogger(ImagenService.class);
     private final ImagenRepository imagenRepository;
     private final ProductoRepository productoRepository;
 
@@ -49,9 +52,17 @@ public class ImagenService {
             throw new Exception("Imágen no encontrada");
     }
 
+
+    public List<Imagen> obtenerImagenesPorIdProducto(Integer productId) {
+        List<Imagen> imagenes = imagenRepository.findByProductoId(productId);
+        return imagenes;
+    }
+
     //traer todas las imagenes
-    public List<Imagen> listarImagen(){
+    public List<Imagen> listarImagenes(){
+        logger.info("Iniciando el método listarImagenes()");
         List<Imagen>imagenes= imagenRepository.findAll();
+        logger.info("Número de imágenes encontradas: {}", imagenes.size());
         return imagenes;
     }
 }
