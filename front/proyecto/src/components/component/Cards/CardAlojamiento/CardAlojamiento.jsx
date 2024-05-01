@@ -3,7 +3,7 @@ import axiosConnection from "../../../../helpers/axiosConnection";
 import SpinnerLoader from "../../../component/SpinnerLoader/SpinnerLoader";
 import "../cards.scss";
 
-const CardAlojamiento = ({ idCategoria, setIdCategoria, onDoubleClick }) => {
+const CardAlojamiento = ({ idCategoria, setIdCategoria, onClickFilterCategoria }) => {
   const [dataCategoria, setDataCategoria] = useState([]);
   const [dataProductos, setDataProductos] = useState([]);
   //const [idCategoria, setIdCategoria] = useState([]);
@@ -38,7 +38,7 @@ const CardAlojamiento = ({ idCategoria, setIdCategoria, onDoubleClick }) => {
         <>
           <div className="cards" >
                 {dataCategoria.map((cat)=>(
-                    <div key={cat.id} className="cardAlojamiento" onDoubleClick={(e)=>{onDoubleClick(cat.id,e)}}>
+                    <div key={cat.id} className="cardAlojamiento" onClick={(e)=>{onClickFilterCategoria(cat.id,e)}}>
                         <div style={{backgroundImage:"url('" + cat.urlImg + "')"}} className="fondoImagen"/>
                         <div className="cardBody">
                             <h4>{cat.titulo}</h4>

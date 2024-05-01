@@ -17,7 +17,7 @@ const Home = ({ authenticated }) => {
     setFilter(search);
   };
 
-  const onDoubleClick = (searchCategoria, e) => {
+  const onClickFilterCategoria = (searchCategoria, e) => {
     setFilterCategoria(searchCategoria);
     console.log("categoria: ", filterCategoria);
   };
@@ -46,7 +46,7 @@ const Home = ({ authenticated }) => {
           <CardAlojamiento
             idCategoria={filterCategoria}
             setIdCategoria={setFilterCategoria}
-            onDoubleClick={onDoubleClick}
+            onClickFilterCategoria={onClickFilterCategoria}
           />
         </section>
         <section className="Recomendaciones">

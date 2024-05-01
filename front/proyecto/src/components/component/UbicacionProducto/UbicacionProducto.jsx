@@ -26,7 +26,7 @@ export default function UbicacionProducto() {
             style={{ paddingRight: "5px" }}
           />
           <p>
-            {dataUbicacion.provincia}, {dataUbicacion.nombre},{" "}
+            {dataUbicacion.nombre}, {dataUbicacion.provincia},{" "}
             {dataUbicacion.pais}.
           </p>
         </dt>

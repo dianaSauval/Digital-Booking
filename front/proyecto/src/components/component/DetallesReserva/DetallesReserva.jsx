@@ -98,7 +98,7 @@ export default function DetallesReserva() {
     e.preventDefault();
 
     const newReserva = {
-      hora: "15:00:00",
+      hora: isHora,
       fechaInicial: fechaInicio,
       fechaFinal: fechaFinal,
       producto: {
@@ -111,7 +111,7 @@ export default function DetallesReserva() {
 
     console.log(newReserva);
 
-    if (rango[0] !== null && rango[1] !== null && isHora && isCiudad) {
+    if (rango[0] !== null && rango[1] !== null && isHora!==null && isCiudad) {
       const token = JSON.parse(sessionStorage.getItem("token"));
       console.log(token);
       axiosConnection

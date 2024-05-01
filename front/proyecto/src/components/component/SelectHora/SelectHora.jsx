@@ -12,13 +12,16 @@ export default function SelectHora(requerido) {
     const [startTime, setStartTime] = useState(null);
     const {setIsHora} = useContext(HoraContextProvider);
 
-
+    const hora = startTime.getHours().toString().padStart(2, '0');
+const minutos = startTime.getMinutes().toString().padStart(2, '0');
+const segundos = startTime.getSeconds().toString().padStart(2, '0');
+const horaFormateada = `${hora}:${minutos}:${segundos}`;
 
 
     console.log("hora: ", startTime?.toTimeString().slice(0,9));
     //setIsHora(startTime.toTimeString().slice(0,9))
 
-    setIsHora(startTime?.toTimeString().slice(0,9))
+    setIsHora(horaFormateada)
   
     
 

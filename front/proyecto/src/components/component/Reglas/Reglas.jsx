@@ -9,7 +9,7 @@ export default function Reglas() {
 
   useEffect(() => {
     // TODO cambiar url
-    axiosConnection.get("/politicas/listarPoliticas").then((response) => {
+    axiosConnection.get(`/politicas/listarPoliticasPorProducto/${id}`).then((response) => {
       setDataReglas(response.data.data);
     });
   }, []);
@@ -22,8 +22,7 @@ export default function Reglas() {
         </div>
         <div className="listaReglas">
           <ul>
-            {dataReglas
-              .filter((regla) => regla.tipo === 1 && regla.producto?.id == id)
+            {dataReglas              
               .map((regla) => (
                 <li key={regla.id}>{regla.descripcion}</li>
               ))}

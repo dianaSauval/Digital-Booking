@@ -287,41 +287,10 @@ export default function FormCrearProducto() {
   }
 
 
-
-
-
-  //onSubmit
-
-  /* const registroProducto = async (data) => {
-    let corsOptions = {
-      origin: "*",
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
-    }
-    const token = JSON.parse(sessionStorage.getItem('token'))
-    console.log(token);
-    try {
-        const respuesta = await axios.post("http://localhost:8080/productos/agregarProducto",data,{
-          headers: {
-            "Content-type":"application/json",
-            "Accept": "application/json",
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        if (respuesta.status !== 200) {
-            throw new Error("Lamentablemente no se ha podido crear el producto. Por favor intente más tarde")
-        } else {
-            console.log("respuesta1: ", respuesta.data);
-        }
-        return respuesta.data;
-    } catch (error) {
-        console.error("ERROR REGISTRO PRODUCTO ", error);
-    }
-  } */
-
-  const crearProducto = async() =>{
+  const crearProducto = async () => {
     const token = JSON.parse(sessionStorage.getItem("token"));
-
-    try{
+  
+    try {
       const response = await fetch("productos/agregarProducto", {
         mode: 'cors',
         method: "POST",
@@ -343,22 +312,23 @@ export default function FormCrearProducto() {
             id: idCategoria,
           },
         }),
-      })
-      
+      });
+  
       const json = await response.json();
-      console.log(json.data);
-
-     setIdProductoCreado(json.data.id)
-      //console.log("idProductoCreado desde funcion crear producto: ", idProductoCreado);
-      setBandera((prevBandera)=> !prevBandera )
-      console.log("bandera: ", bandera);
-      return json.data     
-
-    }catch (error) {
+      if (json.data) { // Verificar si json.data está definido
+        console.log(json);
+        setIdProductoCreado(json.data.id);
+        setBandera(prevBandera => !prevBandera);
+        console.log("bandera: ", bandera);
+        return json.data;
+      } else {
+        console.error("ERROR: json.data está indefinido");
+        // Manejar el caso en el que json.data esté indefinido
+      }
+    } catch (error) {
       console.error("ERROR REGISTRO PRODUCTO ", error);
     }
-    
-  }
+  };
 
 
   
@@ -374,36 +344,6 @@ export default function FormCrearProducto() {
       console.log("respuestaPostProducto: ", respuestaPostProducto);
       const idProducto = respuestaPostProducto.id;
       console.log("idProducto: ", idProducto);       
-
-      /* fetch("productos/agregarProducto", {
-        mode: 'cors',
-        method: "POST",
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          nombre: nombre.campo,
-          descripcion: descripcion,
-          latitud: parseFloat(latitud.campo),
-          longitud: parseFloat(longitud.campo),
-          ciudad: {
-            id: idCiudad,
-          },
-          categoria: {
-            id: idCategoria,
-          },
-        }),
-      }).then((response)=>response.json())
-      .then(data =>setProductoCreado(data?.data));
-
-      console.log("ProductoCreado: ", ProductoCreado); 
-      
-      setIdProductoCreado(ProductoCreado.id)*/
-
-      
 
       fetch("politicas/agregarPolitica", {
         mode: 'cors',

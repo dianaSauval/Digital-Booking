@@ -24,7 +24,7 @@ export default function Caracteristicas() {
           .map((cat) => (
             <div key={cat.id} className="caracteristica">
               <span class="material-symbols-outlined">{cat.caracteristica.icono}</span>
-              <p>{cat.nombre}</p>
+              <p>{cat.caracteristica.nombre}</p>
             </div>
           ))}
       </div>

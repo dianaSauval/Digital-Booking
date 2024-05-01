@@ -25,6 +25,11 @@
     transform: translateY(-3%);
   }
 
+  .cardAlojamiento:active {
+    transform: translateY(3%); /* Agregar efecto de descenso al hacer clic */
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25); /* Remover sombra al hacer clic */
+  }
+
   .cardRecomendacion{
     display: flex;
     justify-content: center;
