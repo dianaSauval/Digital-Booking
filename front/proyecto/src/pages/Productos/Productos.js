@@ -17,7 +17,7 @@ import UbicacionProducto from "../../components/component/UbicacionProducto/Ubic
 import TituloProducto from "../../components/component/TituloProducto/TituloProducto";
 import GoogleMaps from "../../components/component/GoogleMaps/GoogleMaps";
 import UserProvider from "../../components/context/UserContext";
-import ModalRedes from "../../components/component/ModalRedes/ModalRedes";
+import ModalRedes from "../../components/component/Modal/ModalRedes";
 
 const Productos = () => {
   const [modalShow, setModalShow] = useState(false);

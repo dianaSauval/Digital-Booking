@@ -38,7 +38,7 @@ const MisReservas = () => {
             {console.log("reservas: ",reservas)}
         </header>
         <body>
-            {reservas === null ? <MensajeSinReservas />  : <ListadoMisReservas reservas={reservas} /> }
+            {reservas === null ? <MensajeSinReservas />  : <ListadoMisReservas reservas={reservas} setReservas={setReservas}/> }
         </body>
         <footer>
             <Footer/>
