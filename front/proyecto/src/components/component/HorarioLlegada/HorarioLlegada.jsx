@@ -24,12 +24,6 @@ export default function HorarioLlegada() {
             />
             Indica tu horario estimado de llegada
           </Label>
-          {/*                 <Select
-                placeholder={<div className='placeholderSelect'>seleccionar hora de llegada</div>} 
-                className='inputBanner'
-                styles={selectStyles}
-                options={<SelectHora/>}                 
-                /> */}
           <SelectHora />
         </div>
       </div>

@@ -14,8 +14,8 @@ import ImageEmptyState from "../../img/EmptyState@2x.png";
 
 export default function DetallesReserva() {
   const { user } = useContext(UserProvider);
-  const { isHora, setIsHora } = useContext(HoraContextProvider);
-  const { rango, setRango } = useContext(FechaRangoContextProvider);
+  const { isHora } = useContext(HoraContextProvider);
+  const { rango } = useContext(FechaRangoContextProvider);
   //console.log("rango: ", rango);
   const [dataProducto, setDataProducto] = useState([]);
   const [dataImagen, setDataImagen] = useState([]);
@@ -23,7 +23,6 @@ export default function DetallesReserva() {
   const [isDisabled, setIsDisabled] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-  var cors = require("cors");
 
   //console.log("isCiudad: ", isCiudad);
   useEffect(() => {
@@ -84,7 +83,7 @@ export default function DetallesReserva() {
     if (
       rango[0] !== null &&
       rango[1] !== null &&
-      isHora !== undefined &&
+      isHora !== null &&
       isCiudad
     ) {
       console.log("hora: " + isHora);
@@ -111,7 +110,7 @@ export default function DetallesReserva() {
 
     console.log(newReserva);
 
-    if (rango[0] !== null && rango[1] !== null && isHora!==null && isCiudad) {
+    if (rango[0] !== null && rango[1] !== null && isHora!==undefined && isCiudad) {
       const token = JSON.parse(sessionStorage.getItem("token"));
       console.log(token);
       axiosConnection
