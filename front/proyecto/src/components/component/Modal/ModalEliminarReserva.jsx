@@ -29,9 +29,9 @@ export default function ModalEliminarReserva({ reserva, setReservas, ...props })
           ¿Estás seguro de que deseas eliminar esta reserva?
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="modalBody">
-         <Button onClick={() => handleDelete(reserva.id)}>Sí</Button>
-        <Button onClick={() => props.onHide()}>No</Button> 
+      <Modal.Body className="modalBodyButtons">        
+         <Button onClick={() => handleDelete(reserva.id)} className="buttonModal">Sí</Button>
+        <Button onClick={() => props.onHide()} className="buttonModal">No</Button> 
       </Modal.Body>
     </Modal>
   );

@@ -3,6 +3,24 @@
     background-color: #DFE4EA;
 }
 
+.modalBodyButtons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.buttonModal:hover {
+  box-shadow: 3px 0px 30px rgba(163,163,163, 1);
+}
+
+
+.modalBodyButtons button{
+  background-color: #F0572D;
+  border: none;
+  font-size: large;
+  width: 150px;
+}
 
 .listaRedes {
     display: flex;

@@ -22,30 +22,29 @@ export default function ModalRedes(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="modalBody">
-        <ul className="listaRedes">
-          <li>
-            <a target="_blank" href={`https://www.facebook.com/sharer/sharer.php?u=${urlACompartir}`}>
-              <i class="fab fa-facebook-f icon"></i>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="https://twitter.com/intent/tweet?text=[text]&url=[url]&hashtags=[hashtag]">
-              <i class="fab fa-twitter icon"></i>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href={'http://www.linkedin.com/shareArticle?url=' + urlACompartir}>
-              <i class="fab fa-linkedin-in icon"></i>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href={`https://api.whatsapp.com/send?text=${urlACompartir}`}>  
-                        
-              <FontAwesomeIcon icon={faWhatsapp} className="icon"/>
-            </a>
-          </li>
-        </ul>
-      </Modal.Body>
+                <ul className="listaRedes">
+                    <li>
+                        <a target="_blank" rel="noopener noreferrer" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlACompartir)}`}>
+                            <FontAwesomeIcon icon={faFacebook} className="icon" />
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" rel="noopener noreferrer" href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(urlACompartir)}`}>
+                            <FontAwesomeIcon icon={faTwitter} className="icon" />
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" rel="noopener noreferrer" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(urlACompartir)}`}>
+                            <FontAwesomeIcon icon={faLinkedinIn} className="icon" />
+                        </a>
+                    </li>
+                    <li>
+                        <a target="_blank" rel="noopener noreferrer" href={`https://api.whatsapp.com/send?text=${encodeURIComponent(urlACompartir)}`}>
+                            <FontAwesomeIcon icon={faWhatsapp} className="icon" />
+                        </a>
+                    </li>
+                </ul>
+            </Modal.Body>
     </Modal>
   );
 }

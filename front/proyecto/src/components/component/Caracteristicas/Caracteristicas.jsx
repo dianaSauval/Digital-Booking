@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import axiosConnection from "../../../helpers/axiosConnection";
 import "./caracteristicas.scss";
 
+import { faMugHot, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 export default function Caracteristicas() {
   const [dataCaracteristicas, setDataCaracteristicas] = useState([]);
   const { id } = useParams();
@@ -23,7 +26,7 @@ export default function Caracteristicas() {
         {dataCaracteristicas
           .map((cat) => (
             <div key={cat.id} className="caracteristica">
-              <span class="material-symbols-outlined">{cat.caracteristica.icono}</span>
+              <span class="material-symbols-outlined">{cat.caracteristica.icono}</span>              
               <p>{cat.caracteristica.nombre}</p>
             </div>
           ))}

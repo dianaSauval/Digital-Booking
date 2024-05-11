@@ -343,9 +343,17 @@ export default function FormCrearProducto() {
       const respuestaPostProducto = await crearProducto()
       console.log("respuestaPostProducto: ", respuestaPostProducto);
       const idProducto = respuestaPostProducto.id;
-      console.log("idProducto: ", idProducto);       
+      console.log("idProducto: ", idProducto);   
+      
+      // Dividir las descripciones en oraciones individuales
+    const normas = descripcionNorma.split('.').filter(sentence => sentence.trim() !== '');
+    const seguridad = descripcionSeguridad.split('.').filter(sentence => sentence.trim() !== '');
+    const cancelacion = descripcionCancelacion.split('.').filter(sentence => sentence.trim() !== '');
 
-      fetch("politicas/agregarPolitica", {
+    // Función para enviar una petición de política
+
+    const enviarPolitica = async (tipo, descripcion) => {
+      await fetch("politicas/agregarPolitica", {
         mode: 'cors',
         method: "POST",
         headers: {
@@ -355,58 +363,28 @@ export default function FormCrearProducto() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          tipo:1,
-          descripcion:descripcionNorma,
-          producto:{
-              id:idProducto
+          tipo,
+          descripcion,
+          producto: {
+            id: idProducto
           },
         }),
-      }).then((response)=>response.json())
-      .then(data =>console.log("agregarPoliticaNorma: ",data, {
-        tipo:1,
-        descripcion:descripcionNorma,
-        producto:{
-            id:idProducto
-        },
-      }));
+      }).then((response) => response.json())
+      .then(data => console.log(`Política tipo ${tipo}: `, data));
+    };
 
-      fetch("politicas/agregarPolitica", {
-        mode: 'cors',
-        method: "POST",
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tipo:2,
-          descripcion:descripcionSeguridad,
-          producto:{
-              id:idProducto
-          },
-        }),
-      }).then((response)=>response.json())
-      .then(data =>console.log("agregarPoliticaSeguridad: ",data));
+    // Enviar cada oración como una petición de política
+    normas.forEach(async (descripcion) => {
+      await enviarPolitica(1, descripcion.trim());
+    });
 
-      fetch("politicas/agregarPolitica", {
-        mode: 'cors',
-        method: "POST",
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tipo:3,
-          descripcion:descripcionCancelacion,
-          producto:{
-              id:idProducto
-          },
-        }),
-      }).then((response)=>response.json())
-      .then(data =>console.log("agregarPoliticaCancelacion: ",data));
+    seguridad.forEach(async (descripcion) => {
+      await enviarPolitica(2, descripcion.trim());
+    });
+
+    cancelacion.forEach(async (descripcion) => {
+      await enviarPolitica(3, descripcion.trim());
+    });
 
       peticionUrlImagenes(idProducto)
       
